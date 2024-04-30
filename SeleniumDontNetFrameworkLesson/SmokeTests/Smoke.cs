@@ -19,26 +19,23 @@ namespace SeleniumDontNetFrameworkLesson.SmokeTests
         [TestCase]
         public void LoginVerification()
         {
-            var employee = new Employees();
-            employee.JobTitle = "QA";
-            employee.Name = "Test Name";
-            employee.Level = 1;
-
-
-            DbHelper.Insert(employee);
-             //ApiHelper.GetRequest();
-
-            
-
-            var expectedResult = "Products";
+            var expectedResult = "1";
 
             BaseLogger.Info("Step 1: Logging to main page.");
-
             LoginPage.Login(StandartUserName, Password);
 
-            var actualResult = MainPage.ProductLabel.Text;
-            BaseLogger.Info("Successfully logged in.");
+            BaseLogger.Info("Step 2: Going to add item to the cart.");
+            MainPage.ClickAddToCartButton();
+
+            var actualResult = MainPage.ShoppingCartCounter.Text;
+
+            BaseLogger.Info("The item was added to the cart.");
+
             Assert.AreEqual(expectedResult, actualResult);
+
+            var priceLowToHigh = "Price (low to high)";
+
+            PageHelpers.SelectFromDropDownByText(MainPage.FilterDropDown, priceLowToHigh);
         }
 
 
