@@ -20,9 +20,9 @@ namespace SeleniumDontNetFrameworkLesson.SmokeTests
         public void LoginVerification()
         {
             var employee = new Employees();
-            employee.JobTitle = "QA";
-            employee.Name = "Test Name";
-            employee.Level = 1;
+            employee.JobTitle = "Software Engineer";
+            employee.Name = "John Sanders";
+            employee.Level = 3;
 
 
             DbHelper.Insert(employee);
