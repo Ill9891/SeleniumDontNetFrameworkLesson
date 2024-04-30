@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using OpenQA.Selenium.Support.UI;
 using SeleniumDontNetFrameworkLesson.Helpers;
+using SeleniumDontNetFrameworkLesson.Models;
 using SeleniumDontNetFrameworkLesson.PageObjects;
 using System.Linq;
 using System.Threading;
@@ -18,10 +19,16 @@ namespace SeleniumDontNetFrameworkLesson.SmokeTests
         [TestCase]
         public void LoginVerification()
         {
-            DbHelper.GetAll();
+            var employee = new Employees();
+            employee.JobTitle = "QA";
+            employee.Name = "Test Name";
+            employee.Level = 1;
+
+
+            DbHelper.Insert(employee);
              //ApiHelper.GetRequest();
 
-            Thread.Sleep(10000000);
+            
 
             var expectedResult = "Products";
 

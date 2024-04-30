@@ -1,6 +1,7 @@
 ﻿using SeleniumDontNetFrameworkLesson.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -12,8 +13,7 @@ namespace SeleniumDontNetFrameworkLesson.Helpers
     {
         //(localdb)\MSSQLLocalDB
 
-        private const string ConnectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Employees;Integrated Security=True";
-        private const string selectAllQuery = "SELECT * FROM Employees";
+        private static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["MyConnectionString"].ConnectionString;
 
         public static void GetAll()
         {
@@ -57,5 +57,33 @@ namespace SeleniumDontNetFrameworkLesson.Helpers
                 }
             }
         }
+
+        public static void Insert(Employees employees)
+        {
+            // Establish the connection
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                try
+                {
+                    // Open the connection
+                    connection.Open();
+
+                    // Example insert query
+                    var insertQuery =
+                       $"INSERT INTO EmployeeInfo (Name, JobTitle, Level) VALUES ('{employees.Name}', '{employees.JobTitle}', {employees.Level})";
+
+                    using (var insertCommand = new SqlCommand(insertQuery, connection))
+                    {
+                        var rowsAffected = insertCommand.ExecuteNonQuery();
+                        Console.WriteLine($"Rows affected: {rowsAffected}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                }
+            }
+        }
     }
+
 }
